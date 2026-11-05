@@ -1,0 +1,68 @@
+/* Shared glowing equilateral triangle button
+   Keep this HTML in each page and only change href/title/aria-label as needed:
+   <a class="triangle-button" href="cursor.html" aria-label="Go to cursor page" title="Go to cursor page"></a>
+*/
+
+:root {
+  /* Equilateral triangle side length. Change this to resize all triangle buttons. */
+  --triangle-side: clamp(42px, 4.2vw, 68px);
+
+  /* Button position. It stays fixed and will not move with page scrolling. */
+  --triangle-top: clamp(20px, 3vw, 42px);
+  --triangle-right: clamp(20px, 3vw, 42px);
+}
+
+.triangle-button {
+  position: fixed;
+  top: var(--triangle-top);
+  right: var(--triangle-right);
+
+  /* For a right-pointing equilateral triangle:
+     width = side * sqrt(3) / 2, height = side. */
+  width: calc(var(--triangle-side) * 0.8660254);
+  height: var(--triangle-side);
+
+  z-index: 10001;
+  display: block;
+  cursor: none;
+  pointer-events: auto;
+
+  filter:
+    drop-shadow(0 0 7px rgba(255, 255, 255, 1))
+    drop-shadow(0 0 18px rgba(255, 255, 255, 0.95))
+    drop-shadow(0 0 42px rgba(255, 255, 255, 0.7));
+
+  transition: transform 0.22s ease, filter 0.22s ease;
+}
+
+.triangle-button::before,
+.triangle-button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(0 0, 0 100%, 100% 50%);
+  background: white;
+}
+
+.triangle-button::before {
+  opacity: 1;
+}
+
+.triangle-button::after {
+  opacity: 0.55;
+  transform: scale(1.2);
+  transform-origin: center;
+  filter: blur(12px);
+}
+
+.triangle-button:hover {
+  transform: scale(1.1);
+  filter:
+    drop-shadow(0 0 10px rgba(255, 255, 255, 1))
+    drop-shadow(0 0 28px rgba(255, 255, 255, 1))
+    drop-shadow(0 0 58px rgba(255, 255, 255, 0.85));
+}
+
+.triangle-button:active {
+  transform: scale(0.96);
+}

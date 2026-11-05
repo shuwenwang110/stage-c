@@ -1,0 +1,12 @@
+#whiteSpiderCanvas {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 9997 !important;
+  pointer-events: none !important;
+  opacity: 1;
+}
+
+body.white-spider-mode .cursor,
+body.white-spider-mode .trail {
+  display: none;
+}

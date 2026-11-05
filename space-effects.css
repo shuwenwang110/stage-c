@@ -1,0 +1,50 @@
+/* Reusable star background + custom cursor styles
+   Use in any HTML:
+   <link rel="stylesheet" href="space-effects.css" />
+   <script src="space-effects.js" defer></script>
+*/
+
+body {
+  background: black;
+  cursor: none;
+}
+
+#starsCanvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+#light {
+  position: fixed;
+  inset: 0;
+  background: black;
+  z-index: 100;
+  opacity: 1;
+  pointer-events: none;
+  transition: opacity 1.2s ease;
+}
+
+.cursor {
+  position: fixed;
+  width: 0.8vw;
+  height: 0.8vw;
+  min-width: 7px;
+  min-height: 7px;
+  background: white;
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow: 0 0 0.6vw white, 0 0 1.2vw white;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+}
+
+.trail {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  background: white;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+}
