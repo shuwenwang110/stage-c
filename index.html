@@ -22,12 +22,12 @@
   min-height:100vh; line-height:1.55;
 }
 .stage-c-page *, .stage-c-page *::before, .stage-c-page *::after { box-sizing:border-box; }
-.stage-c-page a {color:inherit}
+.stage-c-page a:not(.bottom-back-link) {color:inherit}
 .stage-c-page .page-shell { max-width:1360px; width:min(100% - 56px,1360px); margin:0 auto; padding:36px 0 95px; position:relative; z-index:1; }
 .stage-c-page .top-nav { display:flex; align-items:flex-start; justify-content:space-between; gap:32px; border-bottom:1px solid var(--c-border); padding:0 0 28px; }
-.stage-c-page .back-link, .stage-c-page .bottom-back-link {display:inline-block;text-decoration:none;text-transform:uppercase;font-weight:650;letter-spacing:.08em;font-size:.77rem;white-space:nowrap}
-.stage-c-page .back-link::before, .stage-c-page .bottom-back-link::before {content:'← ';color:var(--c-muted)}
-.stage-c-page .back-link:hover, .stage-c-page .bottom-back-link:hover {color:#fff;text-decoration:underline;text-underline-offset:4px}
+.stage-c-page .back-link {display:inline-block;text-decoration:none;text-transform:uppercase;font-weight:650;letter-spacing:.08em;font-size:.77rem;white-space:nowrap}
+.stage-c-page .back-link::before {content:'← ';color:var(--c-muted)}
+.stage-c-page .back-link:hover {color:#fff;text-decoration:underline;text-underline-offset:4px}
 .stage-c-page .page-explain { margin:0; max-width:565px; font-size:.85rem; color:var(--c-muted); line-height:1.6; }
 .stage-c-page .project-hero {display:grid;grid-template-columns:.8fr 1.2fr;gap:50px;align-items:start;padding:65px 0 45px;border-bottom:1px solid var(--c-border);}
 .stage-c-page .eyebrow {font-family:inherit;color:var(--c-muted);text-transform:uppercase;letter-spacing:.18em;font-size:.7rem;font-weight:700;margin:0 0 15px}
@@ -69,7 +69,6 @@
 .stage-c-page .stage-c-board img {aspect-ratio:3477/2456;object-fit:contain;max-height:none;}
 .stage-c-page .stage-c-pdf {display:inline-flex;margin:17px 0 0;align-items:center;gap:.5em;text-decoration:none;border-bottom:1px solid #b8c5d7;padding:7px 0;font-size:.85rem;}
 .stage-c-page .stage-c-pdf span {font-size:.72rem;color:var(--c-muted)}
-.stage-c-page .bottom-back-link {margin:32px 0 0}
 .stage-c-page [id^="scene-"], .stage-c-page #scenes, .stage-c-page #storyboard, .stage-c-page #costumes {scroll-margin-top:24px}
 /* Visible asset failure indicators, not misleading blank cards. */
 .stage-c-page .click-card.asset-missing { min-height:180px; }
@@ -114,6 +113,41 @@
  .stage-c-page .stage-c-viewer-image {padding:10px 0}
 }
 @media(prefers-reduced-motion:reduce){.stage-c-page .click-card img {transition:none}}
+
+/* Stage C return navigation: keep Back in the upper-left, aligned with other project pages.
+   Explicitly reset positioning rules inherited from the shared portfolio stylesheet. */
+.stage-c-page .top-nav {
+  position:relative !important;
+  display:flex !important;
+  flex-direction:row;
+  justify-content:space-between !important;
+  align-items:flex-start !important;
+  width:100%;
+}
+.stage-c-page .top-nav > a.back-link {
+  position:static !important;
+  inset:auto !important;
+  float:none !important;
+  transform:none !important;
+  margin:0 !important;
+  padding:0 !important;
+  align-self:flex-start !important;
+  flex:0 0 auto !important;
+  text-align:left !important;
+  order:0;
+}
+/* Only the wrapper controls alignment. The Back link itself retains
+   the exact shared .bottom-back-link rules used by Stage B in style.css. */
+.stage-c-page .stage-c-bottom-center {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width:100%;
+  margin-top:32px;
+}
+@media(max-width:680px){
+  .stage-c-page .top-nav {flex-direction:column;align-items:flex-start !important;}
+}
 </style>
 </head>
 <body class="stage-c-page">
@@ -408,7 +442,7 @@
       </a>
       <a class="stage-c-pdf" href="stage-c/Chalk_Circle_Storyboard_A1.pdf" target="_blank" rel="noopener">Open the A1 storyboard PDF <span>(35 MB, opens a new tab)</span></a>
     </section>
-    <a class="bottom-back-link" href="index.html" data-transition>Back to portfolio</a>
+    <div class="stage-c-bottom-center"><a class="bottom-back-link" href="index.html" data-transition>Back to portfolio</a></div>
   </main>
   <div class="lightbox stage-c-lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Stage C image viewer. Click outside the image or press Escape to close." tabindex="-1">
     <div class="stage-c-viewer-bar"><span id="viewerCount" aria-live="polite"></span></div>
