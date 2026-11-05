@@ -148,12 +148,26 @@
 @media(max-width:680px){
   .stage-c-page .top-nav {flex-direction:column;align-items:flex-start !important;}
 }
+
+
+/* Stage C: hide the system cursor */
+body.stage-c-page,
+body.stage-c-page * {
+  cursor: none !important;
+}
+
+/* Keep the custom cursor above the image viewer */
+body.stage-c-page #whiteSpiderCanvas {
+  z-index: 100001 !important;
+  pointer-events: none !important;
+}
+
 </style>
 </head>
 <body class="stage-c-page">
   <main class="page-shell" id="stageContent">
     <nav class="top-nav" aria-label="Page navigation">
-      <a class="back-link" href="index.html" data-transition>Back to portfolio</a>
+      <a class="back-link" href="https://shuwenwang110.github.io/Portfolio/" data-transition>Back to portfolio</a>
       <p class="page-explain">Stage C brings together the set, lighting and costumes for my design of The Caucasian Chalk Circle at the Sumner Theatre.</p>
     </nav>
     <section class="project-hero" aria-labelledby="projectTitle">
@@ -442,7 +456,7 @@
       </a>
       <a class="stage-c-pdf" href="stage-c/Chalk_Circle_Storyboard_A1.pdf" target="_blank" rel="noopener">Open the A1 storyboard PDF <span>(35 MB, opens a new tab)</span></a>
     </section>
-    <div class="stage-c-bottom-center"><a class="bottom-back-link" href="index.html" data-transition>Back to portfolio</a></div>
+    <div class="stage-c-bottom-center"><a class="bottom-back-link" href="https://shuwenwang110.github.io/Portfolio/" data-transition>Back to portfolio</a></div>
   </main>
   <div class="lightbox stage-c-lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Stage C image viewer. Click outside the image or press Escape to close." tabindex="-1">
     <div class="stage-c-viewer-bar"><span id="viewerCount" aria-live="polite"></span></div>
