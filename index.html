@@ -1,165 +1,531 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Shuwen Wang Portfolio</title>
+  <meta name="description" content="Stage C: The Caucasian Chalk Circle at the Sumner Theatre. Set, lighting and costume design, with a fifteen-scene storyboard by Shuwen Wang." />
+  <title>Stage C - The Caucasian Chalk Circle - Shuwen Wang Portfolio</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="white-spider.css" />
   <script src="libraries/p5.min.js" defer></script>
   <script src="space-effects.js" defer></script>
   <script src="white-spider.js" defer></script>
   <script src="protect-media.js" defer></script>
+
+<style>
+/* Stage C resilient styles. Scoped to prevent changing other portfolio pages. */
+.stage-c-page {
+  --c-bg:#080a0d; --c-panel:#11151b; --c-panel2:#171c23;
+  --c-text:#e9edf1; --c-muted:#a2abb7; --c-border:#343b45;
+  --c-accent:#d9e7ff;
+  background:var(--c-bg); color:var(--c-text); margin:0;
+  min-height:100vh; line-height:1.55;
+}
+.stage-c-page *, .stage-c-page *::before, .stage-c-page *::after { box-sizing:border-box; }
+.stage-c-page a:not(.bottom-back-link) {color:inherit}
+.stage-c-page .page-shell { max-width:1360px; width:min(100% - 56px,1360px); margin:0 auto; padding:36px 0 95px; position:relative; z-index:1; }
+.stage-c-page .top-nav { display:flex; align-items:flex-start; justify-content:space-between; gap:32px; border-bottom:1px solid var(--c-border); padding:0 0 28px; }
+.stage-c-page .back-link {display:inline-block;text-decoration:none;text-transform:uppercase;font-weight:650;letter-spacing:.08em;font-size:.77rem;white-space:nowrap}
+.stage-c-page .back-link::before {content:'← ';color:var(--c-muted)}
+.stage-c-page .back-link:hover {color:#fff;text-decoration:underline;text-underline-offset:4px}
+.stage-c-page .page-explain { margin:0; max-width:565px; font-size:.85rem; color:var(--c-muted); line-height:1.6; }
+.stage-c-page .project-hero {display:grid;grid-template-columns:.8fr 1.2fr;gap:50px;align-items:start;padding:65px 0 45px;border-bottom:1px solid var(--c-border);}
+.stage-c-page .eyebrow {font-family:inherit;color:var(--c-muted);text-transform:uppercase;letter-spacing:.18em;font-size:.7rem;font-weight:700;margin:0 0 15px}
+.stage-c-page .project-title { font-size:clamp(3.8rem,9vw,8.8rem);font-weight:600;letter-spacing:-.075em;line-height:.95;margin:0; color:var(--c-text); }
+.stage-c-page .stage-c-intro h2 {font-size:clamp(1.55rem,3vw,2.5rem);line-height:1.15;letter-spacing:-.04em;margin:2px 0 17px;font-weight:500}
+.stage-c-page .stage-c-intro .project-copy {max-width:620px;margin:0 0 18px;color:#d8dce4;font-size:1rem;line-height:1.7}
+.stage-c-page .stage-c-meta {font-size:.75rem;color:var(--c-muted);letter-spacing:.03em;line-height:1.75;margin:0}
+.stage-c-page .stage-c-jump, .stage-c-page .stage-c-act-nav {display:flex;flex-wrap:wrap;gap:9px;}
+.stage-c-page .stage-c-jump {padding:23px 0 18px;margin:0 0 30px;border-bottom:1px solid var(--c-border)}
+.stage-c-page .stage-c-jump a, .stage-c-page .stage-c-act-nav a {font-size:.76rem;letter-spacing:.02em;text-decoration:none;border:1px solid var(--c-border);padding:9px 13px;color:#dce3ee;transition:background .18s,border-color .18s}
+.stage-c-page .stage-c-jump a:hover,.stage-c-page .stage-c-act-nav a:hover {background:#232a33;border-color:#adb5c0}
+.stage-c-page .series-block {padding:35px 0 65px; border-bottom:1px solid var(--c-border); }
+.stage-c-page .series-heading {display:flex;gap:26px;align-items:baseline;flex-wrap:wrap;margin:0 0 16px}
+.stage-c-page .series-heading .eyebrow {min-width:185px;margin:0}
+.stage-c-page .series-heading h2 {font-weight:500;font-size:clamp(1.7rem,3.5vw,3.1rem);line-height:1.12;letter-spacing:-.035em;margin:0}
+.stage-c-page .stage-c-section-copy {color:var(--c-muted);font-size:.94rem;line-height:1.7;max-width:830px;margin:0 0 18px}
+.stage-c-page .stage-c-act-nav {margin:0 0 32px}
+.stage-c-page .click-gallery {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px; margin:0;}
+.stage-c-page .stage-c-item {min-width:0; margin:0; border:1px solid var(--c-border);background:var(--c-panel);overflow:hidden;}
+.stage-c-page .click-card {display:block;position:relative;width:100%;height:auto;min-height:0;overflow:hidden;cursor:zoom-in;text-decoration:none;background:var(--c-panel2);border:0;margin:0;padding:0;color:var(--c-text);}
+.stage-c-page .click-card img { display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;object-position:center;transition:transform .3s ease,filter .3s ease; border:0;}
+.stage-c-page .click-card:hover img {transform:scale(1.025);filter:brightness(1.065)}
+.stage-c-page .click-card>span { position:absolute;bottom:0;left:0;right:0;display:flex;gap:9px;align-items:baseline;justify-content:space-between;padding:24px 16px 12px;color:#f6f8fb;background:linear-gradient(transparent,rgba(0,0,0,.83));text-align:left;font-size:.82rem;letter-spacing:.035em;white-space:normal;line-height:1.3;}
+.stage-c-page .click-card:focus-visible,.stage-c-page button:focus-visible,.stage-c-page a:focus-visible {outline:2px solid #9ac3ff;outline-offset:3px;}
+.stage-c-page .stage-c-caption {padding:19px 22px 23px;color:#d8dee8;font-size:.85rem;line-height:1.6;}
+.stage-c-page .stage-c-caption p {margin:0 0 12px}
+.stage-c-page .stage-c-caption .stage-c-reference {color:var(--c-muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.06em}
+.stage-c-page .stage-c-caption dl {display:grid;grid-template-columns:42px 1fr;gap:6px 13px;border-top:1px solid var(--c-border);padding-top:13px;margin:13px 0 0}
+.stage-c-page .stage-c-caption dt {font-size:.76rem;font-weight:700;text-transform:uppercase;color:var(--c-muted);margin:0}
+.stage-c-page .stage-c-caption dd {margin:0;line-height:1.55}
+.stage-c-page .stage-c-reading-note {margin:22px 0 0;color:var(--c-muted);font-size:.77rem;line-height:1.6;max-width:970px}
+.stage-c-page .stage-c-costume-grid {display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+.stage-c-page .stage-c-costume {aspect-ratio:3/4;}
+.stage-c-page .stage-c-costume img {width:100%;height:100%;aspect-ratio:auto;object-fit:contain;object-position:center; background:#161a1e;}
+.stage-c-page .stage-c-costume>span {display:flex;flex-direction:column;gap:2px;justify-content:flex-end;padding:32px 14px 12px;}
+.stage-c-page .stage-c-costume>span strong {font-weight:600;font-size:.82rem}
+.stage-c-page .stage-c-costume>span small {font-weight:400;font-size:.7rem;color:#ced4de}
+.stage-c-page .stage-c-board {max-width:100%;}
+.stage-c-page .stage-c-board img {aspect-ratio:3477/2456;object-fit:contain;max-height:none;}
+.stage-c-page .stage-c-pdf {display:inline-flex;margin:17px 0 0;align-items:center;gap:.5em;text-decoration:none;border-bottom:1px solid #b8c5d7;padding:7px 0;font-size:.85rem;}
+.stage-c-page .stage-c-pdf span {font-size:.72rem;color:var(--c-muted)}
+.stage-c-page [id^="scene-"], .stage-c-page #scenes, .stage-c-page #storyboard, .stage-c-page #costumes {scroll-margin-top:24px}
+/* Visible asset failure indicators, not misleading blank cards. */
+.stage-c-page .click-card.asset-missing { min-height:180px; }
+.stage-c-page .click-card.asset-missing img { visibility:hidden }
+.stage-c-page .click-card.asset-missing::before {content:'IMAGE NOT FOUND — CHECK FILE PATH';position:absolute;inset:0;display:grid;place-items:center;padding:30px;text-align:center;font-family:monospace;font-size:.8rem;letter-spacing:.05em;color:#e0a7a7}
+/* Self-contained lightbox: works even if stage-c.js and stage-c.css are not uploaded. */
+.stage-c-page .lightbox.stage-c-lightbox {position:fixed;inset:0;top:0;left:0;right:0;bottom:0;width:100vw;height:100dvh;max-width:none;max-height:none;margin:0;transform:none;z-index:100000;display:none;flex-direction:column;background:rgba(4,6,9,.97);color:#f5f7fb;padding:clamp(12px,2vw,26px);box-sizing:border-box;}
+.stage-c-page .lightbox.stage-c-lightbox[aria-hidden="false"] {display:flex;cursor:zoom-out}
+.stage-c-page .stage-c-viewer-image .lightbox-image {cursor:default}
+.stage-c-page .stage-c-viewer-footer button {cursor:pointer}
+.stage-c-page .stage-c-viewer-bar {flex:0 0 auto;display:flex;justify-content:flex-start;gap:18px;align-items:center;min-height:42px;border-bottom:1px solid #444d5a;padding-bottom:10px}
+.stage-c-page .stage-c-viewer-bar span {color:#ccd2dc;font-size:.85rem}
+.stage-c-page .stage-c-viewer-image {flex:1 1 0;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:16px 0}
+.stage-c-page .stage-c-viewer-image .lightbox-image {display:block;position:static;transform:none;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;object-position:center;box-shadow:none;margin:auto;}
+.stage-c-page .stage-c-viewer-footer {display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:16px;border-top:1px solid #444d5a;min-height:55px;flex:0 0 auto;padding-top:11px;}
+.stage-c-page .stage-c-viewer-footer button {color:#f6f6f6;background:transparent;border:1px solid #6c7480;padding:9px 12px;font:inherit;font-size:.8rem;cursor:pointer}
+.stage-c-page .stage-c-viewer-footer p {text-align:center;color:#dce3ee;font-size:.82rem;margin:0;overflow-wrap:anywhere}
+.stage-c-page .stage-c-viewer-footer button:hover {background:#29313b}
+.stage-c-page.lightbox-open {overflow:hidden}
+.stage-c-page .fade-screen {pointer-events:none}
+@media(max-width:930px){
+ .stage-c-page .click-gallery {grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+ .stage-c-page .stage-c-costume-grid {grid-template-columns:repeat(3,minmax(0,1fr))}
+ .stage-c-page .project-hero {gap:26px}
+}
+@media(max-width:680px){
+ .stage-c-page .page-shell {width:min(100% - 30px,1360px);padding-top:23px}
+ .stage-c-page .top-nav {flex-direction:column;gap:13px}
+ .stage-c-page .project-hero {display:block;padding:43px 0 35px}
+ .stage-c-page .project-title {margin-bottom:31px}
+ .stage-c-page .series-block {padding-top:23px;padding-bottom:45px}
+ .stage-c-page .series-heading {display:block}
+ .stage-c-page .series-heading .eyebrow {margin-bottom:10px}
+ .stage-c-page .click-gallery {grid-template-columns:1fr;gap:18px}
+ .stage-c-page .stage-c-costume-grid {grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .stage-c-page .stage-c-caption {padding:17px}
+ .stage-c-page .stage-c-viewer-footer {grid-template-columns:1fr 1fr;gap:9px}
+ .stage-c-page .stage-c-viewer-footer p {grid-column:1/-1;grid-row:1;font-size:.72rem}
+ .stage-c-page .stage-c-viewer-footer button {grid-row:2}
+ .stage-c-page .stage-c-viewer-footer button:first-child {grid-column:1}
+ .stage-c-page .stage-c-viewer-footer button:last-child {grid-column:2}
+ .stage-c-page .stage-c-viewer-image {padding:10px 0}
+}
+@media(prefers-reduced-motion:reduce){.stage-c-page .click-card img {transition:none}}
+
+/* Stage C return navigation: keep Back in the upper-left, aligned with other project pages.
+   Explicitly reset positioning rules inherited from the shared portfolio stylesheet. */
+.stage-c-page .top-nav {
+  position:relative !important;
+  display:flex !important;
+  flex-direction:row;
+  justify-content:space-between !important;
+  align-items:flex-start !important;
+  width:100%;
+}
+.stage-c-page .top-nav > a.back-link {
+  position:static !important;
+  inset:auto !important;
+  float:none !important;
+  transform:none !important;
+  margin:0 !important;
+  padding:0 !important;
+  align-self:flex-start !important;
+  flex:0 0 auto !important;
+  text-align:left !important;
+  order:0;
+}
+/* Only the wrapper controls alignment. The Back link itself retains
+   the exact shared .bottom-back-link rules used by Stage B in style.css. */
+.stage-c-page .stage-c-bottom-center {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width:100%;
+  margin-top:32px;
+}
+@media(max-width:680px){
+  .stage-c-page .top-nav {flex-direction:column;align-items:flex-start !important;}
+}
+</style>
 </head>
-
-<body class="home-page">
-  <main class="page-shell home-shell">
-    <header class="site-header">
-      <div>
-        <p class="eyebrow">2024to2026june</p>
-        <h1 class="home-title">Shuwen Wang Portfolio</h1>
-      </div>
-
-      <p class="home-note page-explain">
-        This front page works as a star map for the portfolio. Each box opens one project theme; unlinked boxes keep the place for later sections.
-      </p>
-    </header>
-
-    <nav class="theme-grid" aria-label="Portfolio themes">
-      <a class="theme-button" href="brand-design.html" data-transition>
-        <span class="box"></span>
-        <span class="box"></span>
-        <span class="box"></span>
-        <span class="theme-label">
-          <span class="theme-name">Brand Design</span>
-        </span>
-      </a>
-
-      <a class="theme-button" href="https://shuwenwang110.github.io/merchandise-design/" data-transition>
-        <span class="box"></span>
-        <span class="box"></span>
-        <span class="box"></span>
-        <span class="theme-label">
-          <span class="theme-name">Merchandise Design</span>
-        </span>
-      </a>
-
-      <a class="theme-button" href="https://shuwenwang110.github.io/print-design/" data-transition>
-        <span class="box"></span>
-        <span class="box"></span>
-        <span class="box"></span>
-        <span class="theme-label">
-          <span class="theme-name">Print Design</span>
-        </span>
-      </a>
-
-      <a class="theme-button" href="https://shuwenwang110.github.io/architecture-design/" data-transition>
-        <span class="box"></span>
-        <span class="box"></span>
-        <span class="box"></span>
-        <span class="theme-label">
-          <span class="theme-name">Architecture Design</span>
-        </span>
-      </a>
-
-      <a class="theme-button" href="https://shuwenwang110.github.io/club-works/" data-transition>
-        <span class="box"></span>
-        <span class="box"></span>
-        <span class="box"></span>
-        <span class="theme-label">
-          <span class="theme-name">Club Works</span>
-        </span>
-      </a>
-
-      <div class="theme-button stage-button" tabindex="0" aria-label="Stage themes">
-        <span class="box"></span>
-        <span class="box"></span>
-        <span class="box"></span>
-        <span class="theme-label">
-          <span class="theme-name">Stage</span>
-        </span>
-
-        <div class="stage-submenu" aria-label="Stage subthemes">
-          <a href="https://shuwenwang110.github.io/stage-a/" data-transition>Stage A</a>
-          <a href="https://shuwenwang110.github.io/stage-b/" data-transition>Stage B</a>
-          <a href="https://shuwenwang110.github.io/stage-c/" data-transition>Stage C</a>
-        </div>
-      </div>
-
-      <a class="theme-button" href="https://shuwenwang110.github.io/photography/" data-transition>
-        <span class="box"></span>
-        <span class="box"></span>
-        <span class="box"></span>
-        <span class="theme-label">
-          <span class="theme-name">Photography</span>
-        </span>
-      </a>
-
-      <a class="theme-button" href="https://shuwenwang110.github.io/creative-experiments/" data-transition>
-        <span class="box"></span>
-        <span class="box"></span>
-        <span class="box"></span>
-        <span class="theme-label">
-          <span class="theme-name">Creative Experiments</span>
-        </span>
-      </a>
-
-      <a class="theme-button" href="https://shuwenwang110.github.io/drawing/" data-transition>
-        <span class="box"></span>
-        <span class="box"></span>
-        <span class="box"></span>
-        <span class="theme-label">
-          <span class="theme-name">Drawing</span>
-        </span>
-      </a>
-
-      <a class="theme-button" href="https://shuwenwang110.github.io/component-a/" data-transition>
-        <span class="box"></span>
-        <span class="box"></span>
-        <span class="box"></span>
-        <span class="theme-label">
-          <span class="theme-name">Component A</span>
-        </span>
-      </a>
-
-      <a class="theme-button" href="https://shuwenwang110.github.io/component-b/" data-transition>
-        <span class="box"></span>
-        <span class="box"></span>
-        <span class="box"></span>
-        <span class="theme-label">
-          <span class="theme-name">Component B</span>
-        </span>
-      </a>
-
-      <a class="theme-button" href="https://shuwenwang110.github.io/DAVID.EXE/" data-transition>
-        <span class="box"></span>
-        <span class="box"></span>
-        <span class="box"></span>
-        <span class="theme-label">
-          <span class="theme-name">David</span>
-        </span>
-      </a>
+<body class="stage-c-page">
+  <main class="page-shell" id="stageContent">
+    <nav class="top-nav" aria-label="Page navigation">
+      <a class="back-link" href="https://shuwenwang110.github.io/Portfolio/" data-transition>Back to portfolio</a>
+      <p class="page-explain">Stage C brings together the set, lighting and costumes for my design of The Caucasian Chalk Circle at the Sumner Theatre.</p>
     </nav>
-
-    <footer class="home-footer">
-      <span>Selected works</span>
-      <span>Portfolio archive</span>
-    </footer>
+    <section class="project-hero" aria-labelledby="projectTitle">
+      <div><p class="eyebrow">Stage design / Set, light &amp; costume / 2026</p><h1 class="project-title" id="projectTitle">Stage C</h1></div>
+      <div class="stage-c-intro">
+        <h2>The Caucasian Chalk Circle</h2>
+        <p class="project-copy">I imagine villagers putting on a play with whatever materials they can find after war. They move the blocks and turn the panels in front of the audience. The same pieces become a home, a dangerous bridge and the circle used in the final trial.</p>
+        <p class="stage-c-meta">Bertolt Brecht / translated by Alistair Beaton<br />Sumner Theatre / 1:50 scale-model proposal</p>
+      </div>
+    </section>
+    <nav class="stage-c-jump" aria-label="Project sections"><a href="#scenes">15 scenes</a><a href="#costumes">Costumes</a><a href="#storyboard">Full storyboard</a></nav>
+    <section class="series-block" id="scenes" aria-labelledby="scenesTitle">
+      <header class="series-heading"><p class="eyebrow">01 / Set &amp; lighting</p><h2 id="scenesTitle">Set &amp; lighting storyboard</h2></header>
+      <p class="stage-c-section-copy">Fifteen moments cover the prologue and all five acts. Small areas of light, low side light and strong shadows change the focus as the scenery is rearranged. The same blocks form both the bridge and the trial circle, with old wood and patchwork curtains connecting the scenes.</p>
+      <nav class="stage-c-act-nav" aria-label="Jump to an act"><a href="#scene-01">Prologue</a><a href="#scene-02">Act I</a><a href="#scene-05">Act II</a><a href="#scene-08">Act III</a><a href="#scene-11">Act IV</a><a href="#scene-13">Act V</a></nav>
+      <div class="click-gallery" id="stageGallery">
+        <figure class="stage-c-item" id="scene-01">
+          <a class="click-card" href="stage-c/01_prologue.webp" data-preview data-title="01 / Prologue" aria-label="Enlarge scene 01: Prologue">
+            <img src="stage-c/01_prologue.webp" alt="Prologue - set and lighting render" width="1920" height="1080" loading="eager" fetchpriority="high" decoding="async" draggable="false" />
+            <span>01 / Prologue</span>
+          </a>
+          <figcaption class="stage-c-caption">
+            <p class="stage-c-reference">Prologue / Script PDF pp. 8-12</p>
+            <p>Villagers discuss land and rebuilding with the Expert before the Singer introduces their play.</p>
+            <dl><dt>Set</dt><dd>Low blocks form an open gathering place. Frames and panels remain exposed around the shared floor.</dd><dt>Light</dt><dd>Soft diagonal daylight reaches the group; a warmer side light identifies the Singer.</dd></dl>
+          </figcaption>
+        </figure>
+        <figure class="stage-c-item" id="scene-02">
+          <a class="click-card" href="stage-c/02_market_square.webp" data-preview data-title="02 / Market Square" aria-label="Enlarge scene 02: Market Square">
+            <img src="stage-c/02_market_square.webp" alt="Market Square - set and lighting render" width="1920" height="1080" loading="lazy" decoding="async" draggable="false" />
+            <span>02 / Market Square</span>
+          </a>
+          <figcaption class="stage-c-caption">
+            <p class="stage-c-reference">Act I / Script PDF pp. 13-15</p>
+            <p>On Easter Sunday, the Governor&#x27;s family passes the petitioners on its way to church.</p>
+            <dl><dt>Set</dt><dd>Two large boxes raise the rulers above the crowd. Brick-faced triangles suggest the town&#x27;s buildings.</dd><dt>Light</dt><dd>Angled gold light catches the high platform; low blue side light picks out the petitioners.</dd></dl>
+          </figcaption>
+        </figure>
+        <figure class="stage-c-item" id="scene-03">
+          <a class="click-card" href="stage-c/03_coup.webp" data-preview data-title="03 / The Coup" aria-label="Enlarge scene 03: The Coup">
+            <img src="stage-c/03_coup.webp" alt="The Coup - set and lighting render" width="1920" height="1080" loading="lazy" decoding="async" draggable="false" />
+            <span>03 / The Coup</span>
+          </a>
+          <figcaption class="stage-c-caption">
+            <p class="stage-c-reference">Act I / Script PDF pp. 20-23</p>
+            <p>The guards turn against the Governor. Soldiers lead him away as the servants flee.</p>
+            <dl><dt>Set</dt><dd>Frames turn across the space and blocks scatter, breaking the order of the previous scene.</dd><dt>Light</dt><dd>Low red light and sharp blue-white crosslight cast large, conflicting shadows across the curtain.</dd></dl>
+          </figcaption>
+        </figure>
+        <figure class="stage-c-item" id="scene-04">
+          <a class="click-card" href="stage-c/04_grushas_choice.webp" data-preview data-title="04 / Grusha&#x27;s Choice" aria-label="Enlarge scene 04: Grusha&#x27;s Choice">
+            <img src="stage-c/04_grushas_choice.webp" alt="Grusha&#x27;s Choice - set and lighting render" width="1920" height="1080" loading="lazy" decoding="async" draggable="false" />
+            <span>04 / Grusha&#x27;s Choice</span>
+          </a>
+          <figcaption class="stage-c-caption">
+            <p class="stage-c-reference">Act I / Script PDF pp. 29-32</p>
+            <p>Grusha watches the abandoned Michael through the night and carries him away at dawn.</p>
+            <dl><dt>Set</dt><dd>Scenery retreats to the sides, leaving Grusha and the child alone beside a low block.</dd><dt>Light</dt><dd>A small warm pool at the child meets a narrow, cold dawn light across the floor.</dd></dl>
+          </figcaption>
+        </figure>
+        <figure class="stage-c-item" id="scene-05">
+          <a class="click-card" href="stage-c/05_farmhouse.webp" data-preview data-title="05 / The Farmhouse" aria-label="Enlarge scene 05: The Farmhouse">
+            <img src="stage-c/05_farmhouse.webp" alt="The Farmhouse - set and lighting render" width="1920" height="1080" loading="lazy" decoding="async" draggable="false" />
+            <span>05 / The Farmhouse</span>
+          </a>
+          <figcaption class="stage-c-caption">
+            <p class="stage-c-reference">Act II / Script PDF pp. 46-48</p>
+            <p>Grusha returns for Michael, strikes the Sergeant with a piece of wood and escapes with the child.</p>
+            <dl><dt>Set</dt><dd>An open box and timber frame make a doorway, with the confrontation outside and the baby within.</dd><dt>Light</dt><dd>Cold side light cuts into the warm doorway as the soldiers threaten the refuge.</dd></dl>
+          </figcaption>
+        </figure>
+        <figure class="stage-c-item" id="scene-06">
+          <a class="click-card" href="stage-c/06_mountain_stream.webp" data-preview data-title="06 / The Mountain Stream" aria-label="Enlarge scene 06: The Mountain Stream">
+            <img src="stage-c/06_mountain_stream.webp" alt="The Mountain Stream - set and lighting render" width="1920" height="1080" loading="lazy" decoding="async" draggable="false" />
+            <span>06 / The Mountain Stream</span>
+          </a>
+          <figcaption class="stage-c-caption">
+            <p class="stage-c-reference">Act II / Script PDF pp. 48-49</p>
+            <p>Beside the frozen stream, Grusha replaces Michael&#x27;s fine linen with rags and makes him her own.</p>
+            <dl><dt>Set</dt><dd>The two triangular panels meet at an angle; a low block supports the child.</dd><dt>Light</dt><dd>Blue light skims the floor as water; a pale local beam keeps mother and child visible.</dd></dl>
+          </figcaption>
+        </figure>
+        <figure class="stage-c-item" id="scene-07">
+          <a class="click-card" href="stage-c/07_footbridge.webp" data-preview data-title="07 / The Footbridge" aria-label="Enlarge scene 07: The Footbridge">
+            <img src="stage-c/07_footbridge.webp" alt="The Footbridge - set and lighting render" width="1920" height="1080" loading="lazy" decoding="async" draggable="false" />
+            <span>07 / The Footbridge</span>
+          </a>
+          <figcaption class="stage-c-caption">
+            <p class="stage-c-reference">Act II / Script PDF pp. 49-51</p>
+            <p>Grusha carries Michael across the failing bridge. The soldiers cannot follow her over it.</p>
+            <dl><dt>Set</dt><dd>Blocks of different heights stand high-low-high on one floor. Passed blocks move aside, interrupting the route.</dd><dt>Light</dt><dd>Low blue crosslight reveals the steps; a narrow white beam finds Grusha on the far side.</dd></dl>
+          </figcaption>
+        </figure>
+        <figure class="stage-c-item" id="scene-08">
+          <a class="click-card" href="stage-c/08_lavrentis_house.webp" data-preview data-title="08 / Lavrenti&#x27;s House" aria-label="Enlarge scene 08: Lavrenti&#x27;s House">
+            <img src="stage-c/08_lavrentis_house.webp" alt="Lavrenti&#x27;s House - set and lighting render" width="1920" height="1080" loading="lazy" decoding="async" draggable="false" />
+            <span>08 / Lavrenti&#x27;s House</span>
+          </a>
+          <figcaption class="stage-c-caption">
+            <p class="stage-c-reference">Act III / Script PDF pp. 53-55</p>
+            <p>Lavrenti offers his exhausted sister shelter, while Aniko keeps her at a distance.</p>
+            <dl><dt>Set</dt><dd>Two open boxes make the family interior. Grusha and Michael remain outside its warm centre.</dd><dt>Light</dt><dd>Amber light stays inside; cold side light separates the mother and child from the household.</dd></dl>
+          </figcaption>
+        </figure>
+        <figure class="stage-c-item" id="scene-09">
+          <a class="click-card" href="stage-c/09_wedding.webp" data-preview data-title="09 / The Wedding" aria-label="Enlarge scene 09: The Wedding">
+            <img src="stage-c/09_wedding.webp" alt="The Wedding - set and lighting render" width="1920" height="1080" loading="lazy" decoding="async" draggable="false" />
+            <span>09 / The Wedding</span>
+          </a>
+          <figcaption class="stage-c-caption">
+            <p class="stage-c-reference">Act III / Script PDF pp. 58-60</p>
+            <p>A Monk marries Grusha to the apparently dying Jussup. Lavrenti holds Michael during the ceremony.</p>
+            <dl><dt>Set</dt><dd>Low blocks make the bed. Timber-faced panels divide the sickroom from the space around the bride.</dd><dt>Light</dt><dd>Sickly yellow light falls on Jussup; a tight cold beam isolates Grusha from the warmer ceremony.</dd></dl>
+          </figcaption>
+        </figure>
+        <figure class="stage-c-item" id="scene-10">
+          <a class="click-card" href="stage-c/10_reunion_separation.webp" data-preview data-title="10 / Reunion / Separation" aria-label="Enlarge scene 10: Reunion / Separation">
+            <img src="stage-c/10_reunion_separation.webp" alt="Reunion / Separation - set and lighting render" width="1920" height="1080" loading="lazy" decoding="async" draggable="false" />
+            <span>10 / Reunion / Separation</span>
+          </a>
+          <figcaption class="stage-c-caption">
+            <p class="stage-c-reference">Act III / Script PDF pp. 68-71</p>
+            <p>Simon returns and misunderstands Grusha&#x27;s situation. Soldiers then seize Michael under a court order.</p>
+            <dl><dt>Set</dt><dd>The lovers face each other across a light-defined stream. A rear frame marks the child&#x27;s exit.</dd><dt>Light</dt><dd>Blue divides the lovers; cold white light shifts attention to the soldiers and child behind them.</dd></dl>
+          </figcaption>
+        </figure>
+        <figure class="stage-c-item" id="scene-11">
+          <a class="click-card" href="stage-c/11_azdaks_hut.webp" data-preview data-title="11 / Azdak&#x27;s Hut" aria-label="Enlarge scene 11: Azdak&#x27;s Hut">
+            <img src="stage-c/11_azdaks_hut.webp" alt="Azdak&#x27;s Hut - set and lighting render" width="1920" height="1080" loading="lazy" decoding="async" draggable="false" />
+            <span>11 / Azdak&#x27;s Hut</span>
+          </a>
+          <figcaption class="stage-c-caption">
+            <p class="stage-c-reference">Act IV / Script PDF pp. 72-75</p>
+            <p>The story returns two years to the rebellion. Azdak shelters a fugitive, unknowingly helping the Grand Duke.</p>
+            <dl><dt>Set</dt><dd>One open box, a panel, a table and a chair form the hut; Shauva waits outside.</dd><dt>Light</dt><dd>Low amber light holds the conversation; a cold side beam separates Shauva from the refuge.</dd></dl>
+          </figcaption>
+        </figure>
+        <figure class="stage-c-item" id="scene-12">
+          <a class="click-card" href="stage-c/12_azdak_chosen.webp" data-preview data-title="12 / Azdak Becomes Judge" aria-label="Enlarge scene 12: Azdak Becomes Judge">
+            <img src="stage-c/12_azdak_chosen.webp" alt="Azdak Becomes Judge - set and lighting render" width="1920" height="1080" loading="lazy" decoding="async" draggable="false" />
+            <span>12 / Azdak Becomes Judge</span>
+          </a>
+          <figcaption class="stage-c-caption">
+            <p class="stage-c-reference">Act IV / Script PDF pp. 81-84</p>
+            <p>After the mock trial, the soldiers choose Azdak as judge, putting robes on him and a basket on his head.</p>
+            <dl><dt>Set</dt><dd>An ordinary chair and stacked open frames form an improvised, uneven court.</dd><dt>Light</dt><dd>Low amber light throws an oversized shadow; blue backlight outlines the frame behind him.</dd></dl>
+          </figcaption>
+        </figure>
+        <figure class="stage-c-item" id="scene-13">
+          <a class="click-card" href="stage-c/13_trial.webp" data-preview data-title="13 / The Trial" aria-label="Enlarge scene 13: The Trial">
+            <img src="stage-c/13_trial.webp" alt="The Trial - set and lighting render" width="1920" height="1080" loading="lazy" decoding="async" draggable="false" />
+            <span>13 / The Trial</span>
+          </a>
+          <figcaption class="stage-c-caption">
+            <p class="stage-c-reference">Act V / Script PDF pp. 96-101</p>
+            <p>Grusha defends the care she has given Michael; the Governor&#x27;s Wife&#x27;s claim is tied to his inheritance.</p>
+            <dl><dt>Set</dt><dd>The two sides face each other across open floor. Azdak&#x27;s table and chair sit off-centre behind them.</dd><dt>Light</dt><dd>Separate pale and blue side lights divide the claimants; a warmer area identifies the judge.</dd></dl>
+          </figcaption>
+        </figure>
+        <figure class="stage-c-item" id="scene-14">
+          <a class="click-card" href="stage-c/14_circle_test.webp" data-preview data-title="14 / The Circle Test" aria-label="Enlarge scene 14: The Circle Test">
+            <img src="stage-c/14_circle_test.webp" alt="The Circle Test - set and lighting render" width="1920" height="1080" loading="lazy" decoding="async" draggable="false" />
+            <span>14 / The Circle Test</span>
+          </a>
+          <figcaption class="stage-c-caption">
+            <p class="stage-c-reference">Act V / Script PDF pp. 103-105</p>
+            <p>Grusha lets go in both tests rather than hurt Michael. Azdak awards her the child; this frame shows the decision.</p>
+            <dl><dt>Set</dt><dd>The same bridge blocks form a circle: low at the front, high behind, with clear views inside.</dd><dt>Light</dt><dd>Warm side light finds Grusha; amber backlight outlines the blocks while the judge remains visible.</dd></dl>
+          </figcaption>
+        </figure>
+        <figure class="stage-c-item" id="scene-15">
+          <a class="click-card" href="stage-c/15_final_dance.webp" data-preview data-title="15 / The Farewell Dance" aria-label="Enlarge scene 15: The Farewell Dance">
+            <img src="stage-c/15_final_dance.webp" alt="The Farewell Dance - set and lighting render" width="1920" height="1080" loading="lazy" decoding="async" draggable="false" />
+            <span>15 / The Farewell Dance</span>
+          </a>
+          <figcaption class="stage-c-caption">
+            <p class="stage-c-reference">Act V / Script PDF pp. 105-106</p>
+            <p>Grusha is freed from her marriage. The couples dance, gradually obscuring Azdak until he disappears.</p>
+            <dl><dt>Set</dt><dd>The block circle stays. Azdak is shown leaving through a gap in the rear curtain; his chair remains.</dd><dt>Light</dt><dd>A warm overhead spot holds the dancers; a quieter cool beam reveals Azdak&#x27;s departure.</dd></dl>
+          </figcaption>
+        </figure>
+      </div>
+      <p class="stage-c-reading-note">Script notes paraphrase the play; set and light notes describe my staging. Scene 10 combines consecutive moments, and scene 14 shows the decision after the second test. References use the page numbers in the Beaton script PDF.</p>
+    </section>
+    <section class="series-block" id="costumes" aria-labelledby="costumesTitle">
+      <header class="series-heading"><p class="eyebrow">02 / Costume design</p><h2 id="costumesTitle">The people and their roles</h2></header>
+      <p class="stage-c-section-copy">Ordinary work clothes belong to the villagers telling the story. Masks and exaggerated shapes distinguish the characters they perform. Patches, worn fabric and faded colours connect the costumes to the reused scenery.</p>
+      <div class="stage-c-costume-grid">
+        <figure class="stage-c-item">
+          <a class="click-card stage-c-costume" href="stage-c/costume-male-colour.webp" data-preview data-title="Old Farmer / Prologue" aria-label="Enlarge costume: Old Farmer / Prologue">
+            <img src="stage-c/costume-male-colour.webp" alt="Old Farmer / Prologue — costume design" width="580" height="1339" loading="lazy" decoding="async" draggable="false" />
+            <span><strong>Old Farmer</strong><small>Prologue</small></span>
+          </a>
+        </figure>
+        <figure class="stage-c-item">
+          <a class="click-card stage-c-costume" href="stage-c/costume-female-colour.webp" data-preview data-title="Old Farmer’s Wife / Prologue" aria-label="Enlarge costume: Old Farmer’s Wife / Prologue">
+            <img src="stage-c/costume-female-colour.webp" alt="Old Farmer’s Wife / Prologue — costume design" width="578" height="1306" loading="lazy" decoding="async" draggable="false" />
+            <span><strong>Old Farmer’s Wife</strong><small>Prologue</small></span>
+          </a>
+        </figure>
+        <figure class="stage-c-item">
+          <a class="click-card stage-c-costume" href="stage-c/costume-expert-colour.webp" data-preview data-title="Expert / Prologue" aria-label="Enlarge costume: Expert / Prologue">
+            <img src="stage-c/costume-expert-colour.webp" alt="Expert / Prologue — costume design" width="510" height="1337" loading="lazy" decoding="async" draggable="false" />
+            <span><strong>Expert</strong><small>Prologue</small></span>
+          </a>
+        </figure>
+        <figure class="stage-c-item">
+          <a class="click-card stage-c-costume" href="stage-c/costume-singer-colour.webp" data-preview data-title="Singer / Prologue and narration" aria-label="Enlarge costume: Singer / Prologue and narration">
+            <img src="stage-c/costume-singer-colour.webp" alt="Singer / Prologue and narration — costume design" width="594" height="1339" loading="lazy" decoding="async" draggable="false" />
+            <span><strong>Singer</strong><small>Prologue and narration</small></span>
+          </a>
+        </figure>
+        <figure class="stage-c-item">
+          <a class="click-card stage-c-costume" href="stage-c/costume-governor-render.webp" data-preview data-title="Governor / The inner story" aria-label="Enlarge costume: Governor / The inner story">
+            <img src="stage-c/costume-governor-render.webp" alt="Governor / The inner story — costume design" width="560" height="1485" loading="lazy" decoding="async" draggable="false" />
+            <span><strong>Governor</strong><small>The inner story</small></span>
+          </a>
+        </figure>
+        <figure class="stage-c-item">
+          <a class="click-card stage-c-costume" href="stage-c/costume-wife-render.webp" data-preview data-title="Governor’s Wife / The inner story" aria-label="Enlarge costume: Governor’s Wife / The inner story">
+            <img src="stage-c/costume-wife-render.webp" alt="Governor’s Wife / The inner story — costume design" width="991" height="1480" loading="lazy" decoding="async" draggable="false" />
+            <span><strong>Governor’s Wife</strong><small>The inner story</small></span>
+          </a>
+        </figure>
+        <figure class="stage-c-item">
+          <a class="click-card stage-c-costume" href="stage-c/costume-fat-render.webp" data-preview data-title="Fat Prince / The inner story" aria-label="Enlarge costume: Fat Prince / The inner story">
+            <img src="stage-c/costume-fat-render.webp" alt="Fat Prince / The inner story — costume design" width="860" height="1405" loading="lazy" decoding="async" draggable="false" />
+            <span><strong>Fat Prince</strong><small>The inner story</small></span>
+          </a>
+        </figure>
+        <figure class="stage-c-item">
+          <a class="click-card stage-c-costume" href="stage-c/costume-azdak-early-colour.webp" data-preview data-title="Azdak / Village scribe" aria-label="Enlarge costume: Azdak / Village scribe">
+            <img src="stage-c/costume-azdak-early-colour.webp" alt="Azdak / Village scribe — costume design" width="600" height="1367" loading="lazy" decoding="async" draggable="false" />
+            <span><strong>Azdak</strong><small>Village scribe</small></span>
+          </a>
+        </figure>
+        <figure class="stage-c-item">
+          <a class="click-card stage-c-costume" href="stage-c/costume-azdak-render.webp" data-preview data-title="Azdak / Judge" aria-label="Enlarge costume: Azdak / Judge">
+            <img src="stage-c/costume-azdak-render.webp" alt="Azdak / Judge — costume design" width="839" height="1522" loading="lazy" decoding="async" draggable="false" />
+            <span><strong>Azdak</strong><small>Judge</small></span>
+          </a>
+        </figure>
+        <figure class="stage-c-item">
+          <a class="click-card stage-c-costume" href="stage-c/costume-grusha-render.webp" data-preview data-title="Grusha / Everyday costume" aria-label="Enlarge costume: Grusha / Everyday costume">
+            <img src="stage-c/costume-grusha-render.webp" alt="Grusha / Everyday costume — costume design" width="518" height="1299" loading="lazy" decoding="async" draggable="false" />
+            <span><strong>Grusha</strong><small>Everyday costume</small></span>
+          </a>
+        </figure>
+        <figure class="stage-c-item">
+          <a class="click-card stage-c-costume" href="stage-c/costume-grusha-wedding.png" data-preview data-title="Grusha / Wedding" aria-label="Enlarge costume: Grusha / Wedding">
+            <img src="stage-c/costume-grusha-wedding.png" alt="Grusha / Wedding — costume design" width="725" height="1327" loading="lazy" decoding="async" draggable="false" />
+            <span><strong>Grusha</strong><small>Wedding</small></span>
+          </a>
+        </figure>
+        <figure class="stage-c-item">
+          <a class="click-card stage-c-costume" href="stage-c/costume-simon-service.webp" data-preview data-title="Simon / In service" aria-label="Enlarge costume: Simon / In service">
+            <img src="stage-c/costume-simon-service.webp" alt="Simon / In service — costume design" width="577" height="1433" loading="lazy" decoding="async" draggable="false" />
+            <span><strong>Simon</strong><small>In service</small></span>
+          </a>
+        </figure>
+        <figure class="stage-c-item">
+          <a class="click-card stage-c-costume" href="stage-c/costume-simon-return.webp" data-preview data-title="Simon / Return from war" aria-label="Enlarge costume: Simon / Return from war">
+            <img src="stage-c/costume-simon-return.webp" alt="Simon / Return from war — costume design" width="587" height="1372" loading="lazy" decoding="async" draggable="false" />
+            <span><strong>Simon</strong><small>Return from war</small></span>
+          </a>
+        </figure>
+        <figure class="stage-c-item">
+          <a class="click-card stage-c-costume" href="stage-c/costume-soldier-render.webp" data-preview data-title="Soldier / The inner story" aria-label="Enlarge costume: Soldier / The inner story">
+            <img src="stage-c/costume-soldier-render.webp" alt="Soldier / The inner story — costume design" width="780" height="1452" loading="lazy" decoding="async" draggable="false" />
+            <span><strong>Soldier</strong><small>The inner story</small></span>
+          </a>
+        </figure>
+        <figure class="stage-c-item">
+          <a class="click-card stage-c-costume" href="stage-c/costume-doctor-colour.webp" data-preview data-title="Doctor / The inner story" aria-label="Enlarge costume: Doctor / The inner story">
+            <img src="stage-c/costume-doctor-colour.webp" alt="Doctor / The inner story — costume design" width="827" height="1463" loading="lazy" decoding="async" draggable="false" />
+            <span><strong>Doctor</strong><small>The inner story</small></span>
+          </a>
+        </figure>
+      </div>
+    </section>
+    <section class="series-block" id="storyboard" aria-labelledby="boardTitle">
+      <header class="series-heading"><p class="eyebrow">03 / The complete sequence</p><h2 id="boardTitle">The storyboard at a glance</h2></header>
+      <a class="click-card stage-c-board" href="stage-c/storyboard-overview.webp" data-preview data-title="Complete set and lighting storyboard" aria-label="Enlarge the complete storyboard">
+        <img src="stage-c/storyboard-overview.webp" alt="A1 storyboard with all fifteen scenes and script, set and lighting notes" width="3477" height="2456" loading="lazy" decoding="async" draggable="false" />
+        <span>15 scenes / Prologue and Acts I-V</span>
+      </a>
+      <a class="stage-c-pdf" href="stage-c/Chalk_Circle_Storyboard_A1.pdf" target="_blank" rel="noopener">Open the A1 storyboard PDF <span>(35 MB, opens a new tab)</span></a>
+    </section>
+    <div class="stage-c-bottom-center"><a class="bottom-back-link" href="https://shuwenwang110.github.io/Portfolio/" data-transition>Back to portfolio</a></div>
   </main>
-
+  <div class="lightbox stage-c-lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Stage C image viewer. Click outside the image or press Escape to close." tabindex="-1">
+    <div class="stage-c-viewer-bar"><span id="viewerCount" aria-live="polite"></span></div>
+    <div class="stage-c-viewer-image"><img class="lightbox-image" alt="" draggable="false" /></div>
+    <div class="stage-c-viewer-footer"><button type="button" data-step="-1" aria-label="Previous image">&larr; Previous</button><p id="viewerCaption" aria-live="polite"></p><button type="button" data-step="1" aria-label="Next image">Next &rarr;</button></div>
+  </div>
   <div class="fade-screen" aria-hidden="true"></div>
 
-  <script>
-    document.querySelectorAll("[data-transition]").forEach(link => {
-      link.addEventListener("click", event => {
-        event.preventDefault();
-        document.body.classList.add("is-leaving");
+<script>
+(()=>{
+  'use strict';
+  const viewer=document.querySelector('.stage-c-lightbox');
+  const previewImg=viewer?.querySelector('.lightbox-image');
+  const prevNext=[...document.querySelectorAll('a[data-preview]')];
+  const count=viewer?.querySelector('#viewerCount');
+  const caption=viewer?.querySelector('#viewerCaption');
+  let current=-1, previousFocus=null;
+  if(!viewer || !previewImg || !prevNext.length) return;
 
-        setTimeout(() => {
-          window.location.href = link.href;
-        }, 520);
-      });
+  // Mark unreachable images but do not hide the remaining content.
+  document.querySelectorAll('.stage-c-page a[data-preview] img').forEach(img=>{
+    img.addEventListener('error',()=>img.closest('a')?.classList.add('asset-missing'));
+    if(img.complete && img.naturalWidth===0 && img.getAttribute('src'))
+      img.closest('a')?.classList.add('asset-missing');
+  });
+
+  function show(i){
+    current=(i+prevNext.length)%prevNext.length;
+    const link=prevNext[current];
+    const im=link.querySelector('img');
+    const label=link.dataset.title || im?.alt || `Image ${current+1}`;
+    previewImg.alt=im?.alt || label;
+    previewImg.src=link.getAttribute('href');
+    count.textContent=`${String(current+1).padStart(2,'0')} / ${String(prevNext.length).padStart(2,'0')}`;
+    caption.textContent=label;
+    previewImg.onerror=()=>{ caption.textContent=`${label} — File not found: ${link.getAttribute('href')}`; };
+  }
+  function open(i){
+    previousFocus=document.activeElement;
+    viewer.setAttribute('aria-hidden','false');
+    document.body.classList.add('lightbox-open');
+    show(i);
+    viewer.focus({preventScroll:true});
+  }
+  function close(){
+    viewer.setAttribute('aria-hidden','true');
+    document.body.classList.remove('lightbox-open');
+    previewImg.removeAttribute('src');
+    previewImg.onerror=null;
+    current=-1;
+    if(previousFocus?.isConnected) previousFocus.focus({preventScroll:true});
+  }
+  prevNext.forEach((link,i)=>link.addEventListener('click',e=>{e.preventDefault();open(i)}));
+  viewer.querySelectorAll('[data-step]').forEach(btn=>btn.addEventListener('click',()=>show(current+Number(btn.dataset.step))));
+  // The photo stays open when clicked; blank space anywhere around it closes it.
+  viewer.addEventListener('click',e=>{
+    if(e.target.closest('.lightbox-image, button[data-step]')) return;
+    close();
+  });
+  document.addEventListener('keydown',e=>{
+    if(viewer.getAttribute('aria-hidden')==='true') return;
+    if(e.key==='Escape'){e.preventDefault();close()}
+    if(e.key==='ArrowRight'){e.preventDefault();show(current+1)}
+    if(e.key==='ArrowLeft'){e.preventDefault();show(current-1)}
+    if(e.key==='Tab'){
+      const controls=[...viewer.querySelectorAll('.stage-c-viewer-footer button')];
+      const first=controls[0],last=controls[controls.length-1];
+      if(e.shiftKey && document.activeElement===first){e.preventDefault();last.focus()}
+      else if(!e.shiftKey && document.activeElement===last){e.preventDefault();first.focus()}
+    }
+  });
+
+  // Same transition behavior as Stage B's standalone page.
+  document.querySelectorAll('a[data-transition]').forEach(link=>{
+    link.addEventListener('click',e=>{
+      if(e.ctrlKey||e.metaKey||e.shiftKey||e.altKey||e.button!==0)return;
+      if(!document.querySelector('.fade-screen'))return;
+      e.preventDefault();
+      document.body.classList.add('is-leaving');
+      setTimeout(()=>{window.location.href=link.href},320);
     });
-  </script>
+  });
+})();
+</script>
 </body>
 </html>
